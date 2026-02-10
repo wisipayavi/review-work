@@ -1,0 +1,57 @@
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL,
+  full_name TEXT NOT NULL,
+  mobile TEXT NOT NULL,
+  role TEXT NOT NULL CHECK(role IN ('SUPER_ADMIN','BRAND','PARTNER','USER')),
+  brand_id INTEGER,
+  partner_id INTEGER,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS brands (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS campaigns (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  brand_id INTEGER NOT NULL,
+  name TEXT NOT NULL,
+  marketplace TEXT,
+  start_at TEXT,
+  end_at TEXT,
+  target_reviews INTEGER NOT NULL DEFAULT 0,
+  budget_cents INTEGER NOT NULL DEFAULT 0,
+  guidelines TEXT,
+  status TEXT NOT NULL DEFAULT 'DRAFT' CHECK(status IN ('DRAFT','ACTIVE','PAUSED','ENDED')),
+  open_to_all_partners INTEGER NOT NULL DEFAULT 1,
+  is_edit_locked INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (brand_id) REFERENCES brands(id)
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  campaign_id INTEGER NOT NULL,
+  brand_id INTEGER NOT NULL,
+  partner_id INTEGER,
+  user_id INTEGER,
+  amount_cents INTEGER NOT NULL,
+  status TEXT NOT NULL DEFAULT 'PENDING',
+  FOREIGN KEY (campaign_id) REFERENCES campaigns(id),
+  FOREIGN KEY (brand_id) REFERENCES brands(id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS reviews (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  order_id INTEGER NOT NULL,
+  brand_id INTEGER NOT NULL,
+  partner_id INTEGER,
+  rating INTEGER NOT NULL,
+  comment TEXT,
+  FOREIGN KEY (order_id) REFERENCES orders(id)
+);
