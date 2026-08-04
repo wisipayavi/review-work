@@ -1,0 +1,14 @@
+{
+  "name": "platform-foundation",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start:api": "node apps/api/src/server.js",
+    "test": "node --test apps/api/test/*.test.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

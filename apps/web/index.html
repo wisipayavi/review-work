@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Platform Foundation</title>
+    <style>
+      body { font-family: Arial, sans-serif; max-width: 900px; margin: 2rem auto; }
+      .hidden { display: none; }
+      .card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+      nav a { margin-right: 1rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Platform Portal</h1>
+
+    <section id="login-section" class="card">
+      <h2>Login</h2>
+      <form id="login-form">
+        <label>Email <input type="email" id="email" value="brand@example.com" required /></label><br /><br />
+        <label>Password <input type="password" id="password" value="password123" required /></label><br /><br />
+        <button type="submit">Sign in</button>
+      </form>
+      <p id="login-error" style="color: #b00020"></p>
+    </section>
+
+    <section id="app-section" class="hidden card">
+      <nav>
+        <a href="#/admin">Admin</a>
+        <a href="#/brand">Brand</a>
+        <a href="#/partner">Partner</a>
+        <button id="logout">Logout</button>
+      </nav>
+      <div id="dashboard"></div>
+    </section>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
